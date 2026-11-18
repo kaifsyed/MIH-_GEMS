@@ -14,9 +14,14 @@ export function OrganizationJsonLd() {
   const data: Record<string, unknown> = {
     "@context": "https://schema.org",
     "@type": "Organization",
+    "@id": `${SITE_URL}/#organization`,
     name: "MIH GEMS",
     url: SITE_URL,
-    logo: `${SITE_URL}/logo-header.png`,
+    logo: {
+      "@type": "ImageObject",
+      "@id": `${SITE_URL}/#logo`,
+      url: `${SITE_URL}/logo-header.png`,
+    },
     description:
       "MIH GEMS is a third-generation family gemstone business and part of the MIH GROUP, curating natural coloured gemstones, birthstones, precious and semi-precious stones, and sterling silver jewellery.",
   };

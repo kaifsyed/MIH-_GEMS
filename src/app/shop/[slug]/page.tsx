@@ -8,6 +8,7 @@ import { PriceTag } from "@/components/product/price-tag";
 import { StatusChip } from "@/components/product/status-chip";
 import { ProductCard } from "@/components/product/product-card";
 import { ProductJsonLd } from "@/components/seo/product-jsonld";
+import { PageJsonLd } from "@/components/seo/page-jsonld";
 import { ArrowRightIcon, DiamondIcon, ShieldIcon, GlobeIcon } from "@/components/ui/icons";
 import { ProductActions } from "@/components/product/product-actions";
 import { Accordion } from "@/components/ui/accordion";
@@ -89,8 +90,47 @@ export default async function ProductPage({ params }: ProductPageProps) {
 
   const related = await getRelatedProducts(product);
 
+  const pageDescription =
+    product.description?.trim() ||
+    `${product.name} — a natural ${product.category.toLowerCase()}${
+      product.detail ? `, ${product.detail}` : ""
+    } from MIH GEMS. Enquire for availability, certification and pricing.`;
+
+  const productUrl = `${SITE_URL}/shop/${product.slug}`;
+
   return (
     <div className="container-luxe section-gap">
+      <PageJsonLd
+        id={`${productUrl}#webpage`}
+        name={product.name}
+        description={pageDescription}
+        url={productUrl}
+        breadcrumb={{
+          "@type": "BreadcrumbList",
+          "@id": `${productUrl}#breadcrumb-page`,
+          itemListElement: [
+            {
+              "@type": "ListItem",
+              position: 1,
+              name: "Home",
+              item: `${SITE_URL}/`,
+            },
+            {
+              "@type": "ListItem",
+              position: 2,
+              name: "Shop",
+              item: `${SITE_URL}/shop`,
+            },
+            {
+              "@type": "ListItem",
+              position: 3,
+              name: product.name,
+              item: productUrl,
+            },
+          ],
+        }}
+        mainEntity={{ "@id": `${productUrl}#product` }}
+      />
       <nav aria-label="Breadcrumb" className="text-xs uppercase tracking-[0.18em] text-muted">
         <Link href="/shop" className="transition-colors hover:text-gold">
           Shop

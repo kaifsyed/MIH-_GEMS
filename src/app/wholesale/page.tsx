@@ -3,6 +3,9 @@ import { SectionHeading } from "@/components/ui/section-heading";
 import EnquiryForm from "@/components/enquiry/enquiry-form";
 import { WHOLESALE_FORM } from "@/components/enquiry/enquiry-fields";
 import { DiamondIcon, ShieldIcon, SparkleIcon } from "@/components/ui/icons";
+import { ServiceJsonLd } from "@/components/seo/service-jsonld";
+import { PageJsonLd } from "@/components/seo/page-jsonld";
+import { SITE_URL } from "@/lib/site";
 
 export const metadata: Metadata = {
   title: "Wholesale Enquiries",
@@ -31,6 +34,37 @@ const BENEFITS = [
 export default function WholesalePage() {
   return (
     <div className="container-luxe section-gap">
+      <PageJsonLd
+        id={`${SITE_URL}/#webpage-wholesale`}
+        name="Wholesale Enquiries"
+        description="Partner with MIH GEMS for wholesale gemstones and silver jewellery. Tell us about your business and we'll get back to you with the details."
+        url={`${SITE_URL}/wholesale`}
+        breadcrumb={{
+          "@type": "BreadcrumbList",
+          "@id": `${SITE_URL}/#breadcrumb-wholesale`,
+          itemListElement: [
+            {
+              "@type": "ListItem",
+              position: 1,
+              name: "Home",
+              item: `${SITE_URL}/`,
+            },
+            {
+              "@type": "ListItem",
+              position: 2,
+              name: "Wholesale",
+              item: `${SITE_URL}/wholesale`,
+            },
+          ],
+        }}
+      />
+      <ServiceJsonLd
+        name="Wholesale Gemstone & Jewellery Supply"
+        description="MIH GEMS supplies natural gemstones and sterling silver jewellery to jewellers, designers and retailers. Direct sourcing, verified quality and dedicated support for wholesale partners."
+        url={`${SITE_URL}/wholesale`}
+        serviceType="Wholesale Gemstone & Jewellery Supply"
+        provider={{ "@id": `${SITE_URL}/#organization` }}
+      />
       <SectionHeading
         as="h1"
         eyebrow="For businesses"

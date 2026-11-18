@@ -13,7 +13,6 @@ import { SITE_URL } from "@/lib/site";
  */
 export function ProductJsonLd({ product }: { product: Product }) {
   const url = `${SITE_URL}/shop/${product.slug}`;
-  const image = product.image_url ?? undefined;
   const description =
     product.description?.trim() ||
     `${product.name} — a natural ${product.category.toLowerCase()}${
@@ -23,15 +22,29 @@ export function ProductJsonLd({ product }: { product: Product }) {
   const data: Record<string, unknown> = {
     "@context": "https://schema.org",
     "@type": "Product",
+    "@id": `${url}#product`,
     name: product.name,
     description,
     url,
-    image,
     brand: {
       "@type": "Brand",
       name: "MIH GEMS",
     },
   };
+
+  // Image — use ImageObject with alt text when a real image URL exists.
+  // Dimensions are deliberately omitted: the product data model does not
+  // store image width/height, and fabricating them would violate Google's
+  // structured-data guidelines. A plain URL is also valid Schema.org; the
+  // ImageObject adds the `alt` attribute which improves accessibility and
+  // image-context understanding.
+  if (product.image_url) {
+    data.image = {
+      "@type": "ImageObject",
+      url: product.image_url,
+      alt: product.name,
+    };
+  }
 
   // Material / gemstone type — the `detail` field is the free-text gemstone
   // identity (e.g. "Natural Zambian Emerald"). Only emit it when the row
@@ -93,8 +106,7 @@ export function ProductJsonLd({ product }: { product: Product }) {
           ? "https://schema.org/InStock"
           : "https://schema.org/PreOrder",
       seller: {
-        "@type": "Organization",
-        name: "MIH GEMS",
+        "@id": `${SITE_URL}/#organization`,
       },
     };
   }

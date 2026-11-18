@@ -9,6 +9,8 @@ import { ArticleCard } from "@/components/blog/article-card";
 import { whatsappLink } from "@/lib/whatsapp";
 import { HeroCarousel } from "@/components/home/hero-carousel";
 import { StarField } from "@/components/home/star-field";
+import { PageJsonLd } from "@/components/seo/page-jsonld";
+import { SITE_URL } from "@/lib/site";
 import {
   ArrowRightIcon,
   WhatsappIcon,
@@ -141,6 +143,24 @@ export default async function Home() {
 
   return (
     <main className="relative isolate flex flex-col">
+      <PageJsonLd
+        id={`${SITE_URL}/#webpage-home`}
+        name="MIH GEMS — Natural Gemstones & Fine Jewellery"
+        description="MIH GEMS — natural, hand-selected coloured gemstones and bespoke fine jewellery. Discover genuine gemstones, silver rings and custom creations, offered by personal enquiry."
+        url={SITE_URL}
+        breadcrumb={{
+          "@type": "BreadcrumbList",
+          "@id": `${SITE_URL}/#breadcrumb-home`,
+          itemListElement: [
+            {
+              "@type": "ListItem",
+              position: 1,
+              name: "Home",
+              item: `${SITE_URL}/`,
+            },
+          ],
+        }}
+      />
       {/* Homepage-only decorative reflected-light layer (behind content) */}
       <StarField />
       {/* Hero — premium multi-slide carousel */}

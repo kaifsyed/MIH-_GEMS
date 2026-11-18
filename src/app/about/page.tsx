@@ -2,6 +2,8 @@ import type { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
 import { whatsappLink } from "@/lib/whatsapp";
+import { PageJsonLd } from "@/components/seo/page-jsonld";
+import { SITE_URL } from "@/lib/site";
 import {
   DiamondIcon,
   ShieldIcon,
@@ -65,6 +67,30 @@ const JOURNEY = [
 export default function AboutPage() {
   return (
     <div className="container-luxe">
+      <PageJsonLd
+        id={`${SITE_URL}/#webpage-about`}
+        name="About Us"
+        description="MIH GEMS curates natural coloured gemstones and sterling silver jewellery for people who value authenticity — with certification on request and a personal, no-pressure approach."
+        url={`${SITE_URL}/about`}
+        breadcrumb={{
+          "@type": "BreadcrumbList",
+          "@id": `${SITE_URL}/#breadcrumb-about`,
+          itemListElement: [
+            {
+              "@type": "ListItem",
+              position: 1,
+              name: "Home",
+              item: `${SITE_URL}/`,
+            },
+            {
+              "@type": "ListItem",
+              position: 2,
+              name: "About",
+              item: `${SITE_URL}/about`,
+            },
+          ],
+        }}
+      />
       {/* Hero */}
       <section className="section-gap grid grid-cols-1 items-center gap-12 lg:grid-cols-2 lg:gap-16">
         <div className="order-2 lg:order-1">

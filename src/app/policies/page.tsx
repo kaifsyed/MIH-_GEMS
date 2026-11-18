@@ -6,6 +6,8 @@ import PoliciesTabs, {
   type PolicyFaq,
 } from "@/components/policies/policies-tabs";
 import { FaqJsonLd } from "@/components/seo/faq-jsonld";
+import { PageJsonLd } from "@/components/seo/page-jsonld";
+import { SITE_URL } from "@/lib/site";
 
 export const metadata: Metadata = {
   title: "Policies & FAQ",
@@ -140,6 +142,30 @@ export default function PoliciesPage() {
 
   return (
     <div className="container-luxe section-gap">
+      <PageJsonLd
+        id={`${SITE_URL}/#webpage-policies`}
+        name="Policies & FAQ"
+        description="How ordering, enquiries, delivery, authenticity and privacy work at MIH GEMS, plus answers to common questions."
+        url={`${SITE_URL}/policies`}
+        breadcrumb={{
+          "@type": "BreadcrumbList",
+          "@id": `${SITE_URL}/#breadcrumb-policies`,
+          itemListElement: [
+            {
+              "@type": "ListItem",
+              position: 1,
+              name: "Home",
+              item: `${SITE_URL}/`,
+            },
+            {
+              "@type": "ListItem",
+              position: 2,
+              name: "Policies",
+              item: `${SITE_URL}/policies`,
+            },
+          ],
+        }}
+      />
       <SectionHeading
         as="h1"
         eyebrow="Client services"

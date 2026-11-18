@@ -5,6 +5,8 @@ import EnquiryForm from "@/components/enquiry/enquiry-form";
 import { CONTACT_FORM } from "@/components/enquiry/enquiry-fields";
 import { CONTACT } from "@/lib/contact";
 import { whatsappLink, hasWhatsapp } from "@/lib/whatsapp";
+import { PageJsonLd } from "@/components/seo/page-jsonld";
+import { SITE_URL } from "@/lib/site";
 import {
   MailIcon,
   PhoneIcon,
@@ -53,6 +55,30 @@ const CROSS_LINKS = [
 export default function ContactPage() {
   return (
     <div className="container-luxe section-gap">
+      <PageJsonLd
+        id={`${SITE_URL}/#webpage-contact`}
+        name="Contact Us"
+        description="Get in touch with MIH GEMS about gemstones, custom jewellery, appointments or wholesale. Send an enquiry or reach us on WhatsApp."
+        url={`${SITE_URL}/contact`}
+        breadcrumb={{
+          "@type": "BreadcrumbList",
+          "@id": `${SITE_URL}/#breadcrumb-contact`,
+          itemListElement: [
+            {
+              "@type": "ListItem",
+              position: 1,
+              name: "Home",
+              item: `${SITE_URL}/`,
+            },
+            {
+              "@type": "ListItem",
+              position: 2,
+              name: "Contact",
+              item: `${SITE_URL}/contact`,
+            },
+          ],
+        }}
+      />
       <SectionHeading
         as="h1"
         eyebrow="Contact"

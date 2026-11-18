@@ -5,6 +5,7 @@ import { notFound } from "next/navigation";
 import { getArticleBySlug, getArticles, formatArticleDate } from "@/lib/articles";
 import { ArticleShareButton } from "@/components/blog/article-share-button";
 import { ArticleCard } from "@/components/blog/article-card";
+import { PageJsonLd } from "@/components/seo/page-jsonld";
 import { ArrowRightIcon } from "@/components/ui/icons";
 import { SITE_URL } from "@/lib/site";
 
@@ -76,27 +77,16 @@ function ArticleJsonLd({ article }: { article: Awaited<ReturnType<typeof getArti
   const jsonLd = {
     "@context": "https://schema.org",
     "@type": "BlogPosting",
+    "@id": `${url}#article`,
     headline: article.title,
     description: article.excerpt,
     image: imageUrl,
     datePublished: article.date,
     author: {
-      "@type": "Organization",
-      name: "MIH GEMS",
-      url: SITE_URL,
-      logo: {
-        "@type": "ImageObject",
-        url: `${SITE_URL}/logo-header.png`,
-      },
+      "@id": `${SITE_URL}/#organization`,
     },
     publisher: {
-      "@type": "Organization",
-      name: "MIH GEMS",
-      url: SITE_URL,
-      logo: {
-        "@type": "ImageObject",
-        url: `${SITE_URL}/logo-header.png`,
-      },
+      "@id": `${SITE_URL}/#organization`,
     },
     mainEntityOfPage: {
       "@type": "WebPage",
@@ -104,6 +94,7 @@ function ArticleJsonLd({ article }: { article: Awaited<ReturnType<typeof getArti
     },
     breadcrumb: {
       "@type": "BreadcrumbList",
+      "@id": `${url}#breadcrumb`,
       itemListElement: [
         {
           "@type": "ListItem",
@@ -120,12 +111,6 @@ function ArticleJsonLd({ article }: { article: Awaited<ReturnType<typeof getArti
         {
           "@type": "ListItem",
           position: 3,
-          name: article.category,
-          item: `${SITE_URL}/blog`,
-        },
-        {
-          "@type": "ListItem",
-          position: 4,
           name: article.title,
           item: url,
         },
@@ -154,8 +139,41 @@ export default async function ArticlePage({ params }: ArticlePageProps) {
     .filter((a) => a.slug !== article.slug)
     .slice(0, 3);
 
+  const url = `${SITE_URL}/blog/${article.slug}`;
+
   return (
     <article className="container-luxe section-gap">
+      <PageJsonLd
+        id={`${url}#webpage`}
+        name={article.title}
+        description={article.excerpt}
+        url={url}
+        breadcrumb={{
+          "@type": "BreadcrumbList",
+          "@id": `${url}#breadcrumb-page`,
+          itemListElement: [
+            {
+              "@type": "ListItem",
+              position: 1,
+              name: "Home",
+              item: `${SITE_URL}/`,
+            },
+            {
+              "@type": "ListItem",
+              position: 2,
+              name: "Journal",
+              item: `${SITE_URL}/blog`,
+            },
+            {
+              "@type": "ListItem",
+              position: 3,
+              name: article.title,
+              item: url,
+            },
+          ],
+        }}
+        mainEntity={{ "@id": `${url}#article` }}
+      />
       <ArticleJsonLd article={article} />
 
       <nav aria-label="Breadcrumb" className="text-xs uppercase tracking-[0.18em] text-muted">
