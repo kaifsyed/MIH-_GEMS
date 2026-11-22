@@ -16,6 +16,9 @@ export const metadata: Metadata = {
   title: "About Us",
   description:
     "MIH GEMS curates natural coloured gemstones and sterling silver jewellery for people who value authenticity — with certification on request and a personal, no-pressure approach.",
+  alternates: {
+    canonical: "/about",
+  },
 };
 
 const VALUES = [
